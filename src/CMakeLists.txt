@@ -9,6 +9,7 @@ set(sources
 set(sources ${sources}
     ${HAL_UC_DIR}/timer.cpp
     ${HAL_UC_DIR}/gpio.cpp
+    ${HAL_UC_DIR}/systick.cpp
 )
 
 set(sources ${sources}

@@ -103,7 +103,14 @@ static void initTimer(const hal_uc::timer::timConfig& timerConfigInit)
 	TimerInit.Init.RepetitionCounter = static_cast<std::uint16_t>(timerConfigInit.repetitionCnt);
 
 
-	//INIT RCC HERE???
+	/* enable RCC Clock for selected Timer */
+	do {
+		__IO uint32_t tmpreg;
+		SET_BIT(RCC->APB1ENR, rccTimers[static_cast<std::uint8_t>(timerConfigInit.timInstance)]);
+		/* Delay after an RCC peripheral clock enabling */
+		tmpreg = READ_BIT(RCC->APB1ENR, rccTimers[static_cast<std::uint8_t>(timerConfigInit.timInstance)]);
+		UNUSED(tmpreg);
+	} while(0);
 
 	HAL_TIM_Base_Init(&TimerInit);
 }
@@ -144,6 +151,9 @@ void hal_uc::timer::stop(void)
 
 void hal_uc::timer::irqHandler(void)
 {
+	/* clear TIM UPDATE FLAG */
+	timerBase[static_cast<std::uint8_t>(timInstance)]->SR = static_cast<std::uint16_t>(~TIM_FLAG_UPDATE);
+
 	/* call given irq function if not nullptr */
 	if(timerIrqFunc != nullptr)
 	{
