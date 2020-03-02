@@ -1,5 +1,5 @@
 /**
- * Name: types.hpp
+ * File: types.hpp
  * Initial Author: andimoto
  */
 

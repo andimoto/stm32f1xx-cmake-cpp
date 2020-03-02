@@ -1,3 +1,8 @@
+/**
+ * File: types.hpp
+ * Initial Author: andimoto
+ */
+
 #include <cstdint>
 #include <stdint.h>
 

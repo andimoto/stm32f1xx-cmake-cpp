@@ -1,5 +1,5 @@
 /**
- * Name: timer.cpp
+ * File: timer.cpp
  * Initial Author: andimoto
  */
 

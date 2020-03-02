@@ -1,5 +1,5 @@
 /**
- * Name: gpio.cpp
+ * File: gpio.cpp
  * Initial Author: andimoto
  */
 #include <cstdint>
@@ -57,7 +57,14 @@ static void initGpio(const hal_uc::gpio::gpioConfig& gpioInitConf)
 //	initPin.OType = static_cast<GPIOOType_TypeDef>(gpioInitConf.gpioType);
 	initPin.Pull = static_cast<std::uint32_t>(gpioInitConf.gpioPushPull);
 
-//	RCC_AHB1PeriphClockCmd(gpioAhb[static_cast<std::uint8_t>(gpioInitConf.gpioPort)], ENABLE);
+	do {
+		__IO uint32_t tmpreg;
+		SET_BIT(RCC->APB2ENR, gpioAhb[static_cast<std::uint32_t>(gpioInitConf.gpioPort)]);
+		/* Delay after an RCC peripheral clock enabling */
+		tmpreg = READ_BIT(RCC->APB2ENR, RCC_APB2ENR_IOPAEN);
+		UNUSED(tmpreg);
+	} while(0);
+
 	HAL_GPIO_Init(gpioBase[static_cast<std::uint8_t>(gpioInitConf.gpioPort)], &initPin);
 }
 

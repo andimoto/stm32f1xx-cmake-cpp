@@ -1,5 +1,5 @@
 /**
- * Name: timer.hpp
+ * File: timer.hpp
  * Initial Author: andimoto
  */
 #ifndef HAL_UC_TIMER_H_

@@ -13,7 +13,7 @@ set(sources ${sources}
 )
 
 set(sources ${sources}
-
+	${HAL_PCB_DIR}/rgb_ws2812b.cpp
 )
 
 target_include_directories(stm32f1xx PUBLIC inc)

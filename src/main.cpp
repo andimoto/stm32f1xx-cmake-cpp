@@ -1,5 +1,11 @@
+/**
+ * File: main.cpp
+ * Initial Author: andimoto
+ */
+
 #include "main.hpp"
 #include "itm_write.h"
+#include "rgb_ws2812b.hpp"
 #include "timer.hpp"
 #include "gpio.hpp"
 
@@ -21,6 +27,9 @@ static void countUp(void)
 
 int main()
 {
+	bool rgbOn = false;
+	hal_pcb::rgb_ws2812b rgb_led;
+
 	hal_uc::timer tim2(tim2Conf, &countUp);
 	tim2.start();
 
@@ -31,6 +40,16 @@ int main()
 
 		if(counter > 1000)
 		{
+			if(rgbOn == false)
+			{
+				rgbOn = true;
+				rgb_led.setRgbLed(0,0,0);
+			}else{
+				rgbOn = false;
+				rgb_led.resetRgb();
+			}
+
+			rgb_led.toggleCtrlLed();
 			counter = 0;
 			printf("%u\n", getSysTick());
 		}
