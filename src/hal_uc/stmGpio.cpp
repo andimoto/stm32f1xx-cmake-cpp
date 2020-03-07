@@ -89,12 +89,12 @@ hal_uc::stmGpio::stmGpio(const gpioConfig& gpioConfiguration) :
 
 void hal_uc::stmGpio::set(void)
 {
-
+	*pinSet = 1;
 }
 
 void hal_uc::stmGpio::reset(void)
 {
-
+	*pinReset = 1;
 }
 
 void hal_uc::stmGpio::toggle(void)
@@ -107,6 +107,6 @@ void hal_uc::stmGpio::toggle(void)
 
 std::uint8_t hal_uc::stmGpio::get(void) const
 {
-	return 0;
+	return *pinRead;
 }
 

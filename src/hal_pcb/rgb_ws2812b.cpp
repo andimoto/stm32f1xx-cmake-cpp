@@ -7,23 +7,18 @@
 #include "stm32f1xx.h"
 
 
-static const hal_uc::gpio::gpioConfig ws2812b_conf(hal_uc::gpio::Port::PORT_A, hal_uc::gpio::Pin::PIN_0,
-		hal_uc::gpio::Mode::OUT, hal_uc::gpio::Speed::FAST,	hal_uc::gpio::Type::PUSHPULL,
-		hal_uc::gpio::PushPull::UP);
+static const hal_uc::stmGpio::gpioConfig ws2812b_conf(hal_uc::stmGpio::Port::PORT_A, hal_uc::stmGpio::Pin::PIN_0,
+		hal_uc::stmGpio::Mode::OUT, hal_uc::stmGpio::Speed::FAST,	hal_uc::stmGpio::Type::PUSHPULL,
+		hal_uc::stmGpio::PushPull::UP);
 
-static const hal_uc::gpio::gpioConfig testPin_conf(hal_uc::gpio::Port::PORT_A, hal_uc::gpio::Pin::PIN_1,
-		hal_uc::gpio::Mode::OUT, hal_uc::gpio::Speed::FAST,	hal_uc::gpio::Type::PUSHPULL,
-		hal_uc::gpio::PushPull::UP);
+static const hal_uc::stmGpio::gpioConfig testPin_conf(hal_uc::stmGpio::Port::PORT_A, hal_uc::stmGpio::Pin::PIN_1,
+		hal_uc::stmGpio::Mode::OUT, hal_uc::stmGpio::Speed::FAST,	hal_uc::stmGpio::Type::PUSHPULL,
+		hal_uc::stmGpio::PushPull::UP);
 
-//static const hal_uc::gpio::gpioConfig led_conf(hal_uc::gpio::Port::PORT_C, hal_uc::gpio::Pin::PIN_13,
-//		hal_uc::gpio::Mode::OUT, hal_uc::gpio::Speed::FAST,	hal_uc::gpio::Type::PUSHPULL,
-//		hal_uc::gpio::PushPull::UP);
 
 hal_pcb::rgb_ws2812b::rgb_ws2812b(void):
 		ws2812b_din(ws2812b_conf),
 		testPin(testPin_conf)
-//,
-//		ctrl(led_conf)
 {
 	/* initialize rgb led pin to high */
 	ws2812b_din.set();
@@ -177,14 +172,65 @@ void hal_pcb::rgb_ws2812b::setTestLed(void)
 
 //	for(index=0; index < bitByte; index++)
 //	{
-//		test1high();
-//		test1low();
+		testPin.set();
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+		testPin.reset();
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		testPin.set();
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+		testPin.reset();
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		testPin.set();
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+		testPin.reset();
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		__asm__("nop\n\t");
+		testPin.set();
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+//		__asm__("nop\n\t");
+		testPin.reset();
 //	}
 
-	testPin.set();
-//	__asm__("nop\n\t");
-//	__asm__("nop\n\t");
-	testPin.reset();
 
 //	test1high();
 //	test1low();

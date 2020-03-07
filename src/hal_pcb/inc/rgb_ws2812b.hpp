@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include "gpio.hpp"
+#include "stmGpio.hpp"
 #include "stm32f1xx.h"
 
 
@@ -26,8 +27,8 @@ public:
 
 
 private:
-	hal_uc::gpio ws2812b_din;
-	hal_uc::gpio testPin;
+	hal_uc::stmGpio ws2812b_din;
+	hal_uc::stmGpio testPin;
 //	hal_uc::gpio ctrl;
 
 	void t0low(void);
