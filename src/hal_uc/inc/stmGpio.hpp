@@ -121,6 +121,9 @@ public:
 
 	std::uint8_t get(void) const;
 
+	bitband_t getSetPin(void);
+	bitband_t getResetPin(void);
+
 private:
 
 	const Port gpioPort;

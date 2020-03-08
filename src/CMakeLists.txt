@@ -25,7 +25,7 @@ target_include_directories(stm32f1xx PUBLIC ${HAL_PCB_DIR}/inc)
 # GCC optimization level: use -O0 in debug build, otherwise -O2
 if(CMAKE_BUILD_TYPE MATCHES Debug)
 #  set(opt_level -O0)
-  set(opt_level -O0)# DOES NOT WORK!! WRONG JUMP AT FOR(;;) LOOP?!
+  set(opt_level -Og)# DOES NOT WORK!! WRONG JUMP AT FOR(;;) LOOP?!
 else()
   set(opt_level -Os)
 endif()

@@ -18,26 +18,40 @@ static const hal_uc::stmGpio::gpioConfig testPin_conf(hal_uc::stmGpio::Port::POR
 
 hal_pcb::rgb_ws2812b::rgb_ws2812b(void):
 		ws2812b_din(ws2812b_conf),
-		testPin(testPin_conf)
+		testPin(testPin_conf),
+		dinSet(ws2812b_din.getSetPin()),
+		dinReset(ws2812b_din.getResetPin()),
+		test_dinSet(testPin.getSetPin()),
+		test_dinReset(testPin.getResetPin())
 {
-	/* initialize rgb led pin to high */
-	ws2812b_din.set();
+
 }
 
-static void wait33percent(void)
+__INLINE static void wait33percent(void)
 {
-	for(std::uint32_t index = 0; index<12/4;index++) /*14*0,028us*/
-	{
-		__asm__("nop\n\t");
-	}
-}
-
-static void wait50percent(void)
-{
-	for(std::uint32_t index = 0; index<20/4;index++) /*22*0,028us*/
-	{
-		__asm__("nop\n\t");
-	}
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
+	__asm__("nop\n\t");
 }
 
 void hal_pcb::rgb_ws2812b::t1high(void)
@@ -77,7 +91,7 @@ void hal_pcb::rgb_ws2812b::resetRgb(void)
 		t0high();
 		t0low();
 	}
-	reset();
+
 }
 
 void hal_pcb::rgb_ws2812b::reset(void)
@@ -95,158 +109,70 @@ void hal_pcb::rgb_ws2812b::reset(void)
 
 void hal_pcb::rgb_ws2812b::setRgbLed(const std::uint8_t red, const std::uint8_t green, const std::uint8_t blue)
 {
-	const std::uint8_t bitByte = 8;
-	std::uint8_t index = 0;
-	std::uint8_t tmp = 0;
+	std::uint8_t bitByteR = 24;
+	std::uint8_t bitByteG = 8;
+	std::uint8_t bitByteB = 8;
 
-	for(index=0; index < 24; index++)
+	while(bitByteR)
 	{
-		t1high();
-		t1low();
+		*dinSet = 1;
+		wait33percent();
+		wait33percent();
+		*dinReset = 1;
+		wait33percent();
+		bitByteR--;
 	}
-//	ws2812b_din.set();
 
-	reset();
-
-}
-
-//####################################################################
-//####################################################################
-//####################################################################
-//####################################################################
-
-static void test33percent(void)
-{
-//	for(std::uint32_t index = 0; index<2;index++) /*14*0,028us*/
+//	while(bitByteG)
 //	{
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
+//		*dinSet = 1;
+//		wait33percent();
+//		*dinReset = 1;
+//		wait33percent();
+//		bitByteG--;
+//	}
+//
+//	while(bitByteB)
+//	{
+//		*dinSet = 1;
+//		wait33percent();
+//		*dinReset = 1;
+//		wait33percent();
+//		bitByteB--;
 //	}
 }
 
-void hal_pcb::rgb_ws2812b::test1high(void)
-{
-	testPin.set();
-	test33percent();
-	test33percent();
-}
-
-void hal_pcb::rgb_ws2812b::test1low(void)
-{
-	testPin.reset();
-	test33percent();
-}
-
-void hal_pcb::rgb_ws2812b::test0high(void)
-{
-	testPin.set();
-	test33percent();
-}
-
-void hal_pcb::rgb_ws2812b::test0low(void)
-{
-	testPin.reset();
-	test33percent();
-	test33percent();
-}
-
-
-void hal_pcb::rgb_ws2812b::testReset(void)
-{
-	std::uint16_t index = 0;
-
-	testPin.reset();
-	for(index=0; index < 260; index++)
-	{
-		__asm__("nop\n\t");
-	}
-
-	testPin.set();
-}
 
 void hal_pcb::rgb_ws2812b::setTestLed(void)
 {
-	const std::uint8_t bitByte = 24;
-	std::uint8_t index = 0;
-	std::uint8_t tmp = 0;
+	std::uint8_t bitByteR = 24;
 
-//	for(index=0; index < bitByte; index++)
+	while(bitByteR)
+	{
+		*dinSet = 1;
+		wait33percent();
+		wait33percent();
+		*dinReset = 1;
+		wait33percent();
+		bitByteR--;
+	}
+
+//	while(bitByteG)
 //	{
-		testPin.set();
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-		testPin.reset();
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		testPin.set();
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-		testPin.reset();
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		testPin.set();
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-		testPin.reset();
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		__asm__("nop\n\t");
-		testPin.set();
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-//		__asm__("nop\n\t");
-		testPin.reset();
+//		*dinSet = 1;
+//		wait33percent();
+//		*dinReset = 1;
+//		wait33percent();
+//		bitByteG--;
+//	}
+//
+//	while(bitByteB)
+//	{
+//		*dinSet = 1;
+//		wait33percent();
+//		*dinReset = 1;
+//		wait33percent();
+//		bitByteB--;
 //	}
 
-
-//	test1high();
-//	test1low();
-//	test1high();
-//	test1low();
-
-//	reset();
-
-}
-
-//####################################################################
-//####################################################################
-//####################################################################
-
-
-void hal_pcb::rgb_ws2812b::toggleCtrlLed(void)
-{
-//	ctrl.toggle();
 }

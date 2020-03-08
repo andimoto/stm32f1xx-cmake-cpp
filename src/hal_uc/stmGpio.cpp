@@ -110,3 +110,13 @@ std::uint8_t hal_uc::stmGpio::get(void) const
 	return *pinRead;
 }
 
+bitband_t hal_uc::stmGpio::getSetPin(void)
+{
+	return this->pinSet;
+}
+
+bitband_t hal_uc::stmGpio::getResetPin(void)
+{
+	return this->pinReset;
+}
+
