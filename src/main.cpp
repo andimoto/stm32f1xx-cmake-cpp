@@ -62,6 +62,10 @@ int main()
 
 			rgb_led.setTestLed();
 			rgb_led.testBreak();
+			rgb_led.setLightFunc();
+//			rgb_led.testRunFunc();
+
+			rgb_led.testBreak();
 			rgb_led.resetTestLed();
 
 			if(rgbOn == false)

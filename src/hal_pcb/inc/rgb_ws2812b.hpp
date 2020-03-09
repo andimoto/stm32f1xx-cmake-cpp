@@ -25,6 +25,8 @@ public:
 	void setTestLed(void);
 	void resetTestLed(void);
 	void testBreak(void); //testBreak is reset of ws2812b
+	void setLightFunc(void);
+	void testRunFunc(void);
 
 
 private:
