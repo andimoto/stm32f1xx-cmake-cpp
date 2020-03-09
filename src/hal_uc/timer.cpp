@@ -61,22 +61,24 @@ static IRQn_Type nvicIrqMap[static_cast<std::uint8_t>(hal_uc::timer::Instance::A
 static void startTimerCtrl(const hal_uc::timer::Instance tim)
 {
 	timerBase[static_cast<std::uint8_t>(tim)]->CR1 |= static_cast<std::uint16_t>(TIM_CR1_CEN);
+	timerBase[static_cast<std::uint8_t>(tim)]->DIER |= static_cast<std::uint16_t>(TIM_IT_UPDATE);
 }
 
 static void stopTimerCtrl(const hal_uc::timer::Instance tim)
 {
-	timerBase[static_cast<std::uint8_t>(tim)]->CR1 = static_cast<std::uint16_t>(~TIM_CR1_CEN);
+	timerBase[static_cast<std::uint8_t>(tim)]->CR1 &= static_cast<std::uint16_t>(~TIM_CR1_CEN);
+	timerBase[static_cast<std::uint8_t>(tim)]->DIER &= static_cast<std::uint16_t>(~TIM_IT_UPDATE);
 }
 
 static void enableTimerIrq(const hal_uc::timer::Instance tim)
 {
-	timerBase[static_cast<std::uint8_t>(tim)]->DIER |= static_cast<std::uint16_t>(TIM_IT_UPDATE);
+//	timerBase[static_cast<std::uint8_t>(tim)]->DIER |= static_cast<std::uint16_t>(TIM_IT_UPDATE);
 	NVIC_EnableIRQ(nvicIrqMap[static_cast<std::uint8_t>(tim)]);
 }
 
 static void disableTimerIrq(const hal_uc::timer::Instance tim)
 {
-	timerBase[static_cast<std::uint8_t>(tim)]->DIER = static_cast<std::uint16_t>(~TIM_IT_UPDATE);
+//	timerBase[static_cast<std::uint8_t>(tim)]->DIER &= static_cast<std::uint16_t>(~TIM_IT_UPDATE);
 	NVIC_DisableIRQ(nvicIrqMap[static_cast<std::uint8_t>(tim)]);
 }
 
@@ -120,6 +122,7 @@ hal_uc::timer::timer(const timConfig timerConf, simplePointer timerIrqFuncConfig
 		timerIrqFunc(timerIrqFuncConfig)
 {
 	initTimer(timerConf);
+	enableTimerIrq(timInstance); /* enable NVIC Irq */
 	/* register this timer object for usage in TIMx_IRQHandler */
 	registerTimerObject(this, timInstance);
 }
@@ -134,7 +137,7 @@ void hal_uc::timer::start(void)
 	/* enable irq only if an irq handler function has been provided */
 	if(timerIrqFunc != nullptr)
 	{
-		enableTimerIrq(timInstance); /* enable NVIC Irq */
+//		enableTimerIrq(timInstance); /* enable NVIC Irq */
 	}
 	startTimerCtrl(timInstance); /* start timer */
 }
@@ -144,7 +147,7 @@ void hal_uc::timer::stop(void)
 	/* enable irq only if an irq handler function has been provided */
 	if(timerIrqFunc != nullptr)
 	{
-		disableTimerIrq(timInstance); /* disable NVIC Irq */
+//		disableTimerIrq(timInstance); /* disable NVIC Irq */
 	}
 	stopTimerCtrl(timInstance); /* stop timer */
 }
@@ -152,7 +155,7 @@ void hal_uc::timer::stop(void)
 void hal_uc::timer::irqHandler(void)
 {
 	/* clear TIM UPDATE FLAG */
-	timerBase[static_cast<std::uint8_t>(timInstance)]->SR = static_cast<std::uint16_t>(~TIM_FLAG_UPDATE);
+	timerBase[static_cast<std::uint8_t>(timInstance)]->SR &= static_cast<std::uint16_t>(~TIM_FLAG_UPDATE);
 
 	/* call given irq function if not nullptr */
 	if(timerIrqFunc != nullptr)

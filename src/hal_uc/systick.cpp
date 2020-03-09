@@ -16,6 +16,20 @@ void SysTick_Handler(void)
     systick_count++;
 }
 
+void disableSysTick(void)
+{
+	SysTick->CTRL  = ~(SysTick_CTRL_CLKSOURCE_Msk |
+	   SysTick_CTRL_TICKINT_Msk   |
+	   SysTick_CTRL_ENABLE_Msk);
+}
+
+void enableSysTick(void)
+{
+	SysTick->CTRL  = (SysTick_CTRL_CLKSOURCE_Msk |
+	   SysTick_CTRL_TICKINT_Msk   |
+	   SysTick_CTRL_ENABLE_Msk);
+}
+
 std::uint32_t getSysTick(void)
 {
 	return systick_count;

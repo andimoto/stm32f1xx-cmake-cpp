@@ -23,6 +23,8 @@ public:
 	void resetRgb(void);
 
 	void setTestLed(void);
+	void resetTestLed(void);
+	void testBreak(void); //testBreak is reset of ws2812b
 
 
 private:
@@ -34,11 +36,6 @@ private:
 
 	bitband_t test_dinSet;
 	bitband_t test_dinReset;
-
-	void t0low(void);
-	void t0high(void);
-	void t1low(void);
-	void t1high(void);
 
 	void reset(void);
 };

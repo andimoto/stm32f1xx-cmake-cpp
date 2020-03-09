@@ -10,3 +10,5 @@
 
 extern void delay_ms(std::uint32_t ms);
 extern std::uint32_t getSysTick(void);
+extern void disableSysTick(void);
+extern void enableSysTick(void);
