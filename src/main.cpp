@@ -60,18 +60,20 @@ int main()
 			ledg.toggle();
 #endif
 
-			rgb_led.setTestLed();
-			rgb_led.testBreak();
-			rgb_led.setLightFunc();
-//			rgb_led.testRunFunc();
+//			rgb_led.setTestLed();
+//			rgb_led.testBreak();
+//			rgb_led.TsetLightFunc();
+//			rgb_led.runFunc();
 
-			rgb_led.testBreak();
-			rgb_led.resetTestLed();
+//			rgb_led.testBreak();
+//			rgb_led.resetTestLed();
 
 			if(rgbOn == false)
 			{
 				rgbOn = true;
-				rgb_led.setRgbLed(0,0,0);
+//				rgb_led.setRgbLed(0,0,0);
+				rgb_led.setLightFunc();
+				rgb_led.runFunc();
 
 			}else{
 				rgbOn = false;

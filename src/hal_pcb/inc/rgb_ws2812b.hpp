@@ -21,12 +21,14 @@ public:
 
 	void setRgbLed(const std::uint8_t red, const std::uint8_t green, const std::uint8_t blue);
 	void resetRgb(void);
+	void setLightFunc(void);
+	void runFunc(void);
+
 
 	void setTestLed(void);
 	void resetTestLed(void);
 	void testBreak(void); //testBreak is reset of ws2812b
-	void setLightFunc(void);
-	void testRunFunc(void);
+	void TsetLightFunc(void);
 
 
 private:
