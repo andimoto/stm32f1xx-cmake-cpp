@@ -39,8 +39,15 @@ int main()
 	bool rgbOn = false;
 	hal_pcb::rgb_ws2812b rgb_led;
 
+	std::uint8_t countColor = 0x01;
+	std::uint8_t g = 0;
+	std::uint8_t r = 0;
+	std::uint8_t b = 0;
+
+
 #ifdef BITBAND
 	hal_uc::stmGpio led(led_conf);
+	led.set();
 #else
 	hal_uc::gpio ledg(led_conf2);
 #endif
@@ -51,8 +58,27 @@ int main()
 
 	while(1)
 	{
-		if(counter > 100)
+		if(counter > 400)
 		{
+			if( (countColor&0x01) == 0x01)
+			{
+				g++;
+			}
+			if( (countColor&0x03) == 0x02)
+			{
+				r++;
+			}
+			if( (countColor&0x04) == 0x04)
+			{
+				b++;
+			}
+			countColor++;
+
+//			g++;
+//			r++;
+//			b--;
+
+
 			tim2.stop();
 #ifdef BITBAND
 			led.toggle();
@@ -65,15 +91,14 @@ int main()
 			if(rgbOn == false)
 			{
 				rgbOn = true;
-//				rgb_led.setRgbLed(0,0,0);
-				rgb_led.setLightFunc();
+				rgb_led.setLightFunc2(g,r,b);
 				rgb_led.runFunc();
 
 			}else{
 				rgbOn = false;
 				rgb_led.setTurnOff();
 				rgb_led.runFunc();
-//				rgb_led.resetRgb();
+
 			}
 			tim2.start();
 			counter = 0;

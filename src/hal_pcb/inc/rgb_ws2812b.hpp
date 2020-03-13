@@ -20,6 +20,7 @@ public:
 	rgb_ws2812b();
 
 	void setLightFunc(void);
+	void setLightFunc2(std::uint8_t g, std::uint8_t r, std::uint8_t b);
 	void setTurnOff(void);
 	void runFunc(void);
 

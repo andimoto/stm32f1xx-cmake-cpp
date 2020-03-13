@@ -214,6 +214,51 @@ void hal_pcb::rgb_ws2812b::setLightFunc(void)
 }
 
 
+void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::uint8_t b)
+{
+	std::uint32_t index = 0;
+	while(index < bitsG){
+		if(g&1)
+		{
+			led01_hl[index] = t1high;
+			led01_hl[index+1] = t1low;
+		}else{
+			led01_hl[index] = t0high;
+			led01_hl[index+1] = t0low;
+		}
+		g = g >> 1;
+		index = index + 2;
+	}
+
+	index = 0;
+	while(index < bitsR){
+		if(r&1)
+		{
+			led01_hl[index+bitsG] = t1high;
+			led01_hl[index+bitsG+1] = t1low;
+		}else{
+			led01_hl[index+bitsG] = t0high;
+			led01_hl[index+bitsG+1] = t0low;
+		}
+		r = r >> 1;
+		index = index + 2;
+	}
+
+	index = 0;
+	while(index < bitsB){
+		if(b&1)
+		{
+			led01_hl[index+bitsG+bitsB] = t1high;
+			led01_hl[index+bitsG+bitsB+1] = t1low;
+		}else{
+			led01_hl[index+bitsG+bitsB] = t0high;
+			led01_hl[index+bitsG+bitsB+1] = t0low;
+		}
+		b = b >> 1;
+		index = index + 2;
+	}
+
+}
 
 void hal_pcb::rgb_ws2812b::setTurnOff(void)
 {
