@@ -51,7 +51,7 @@ int main()
 
 	while(1)
 	{
-		if(counter > 500)
+		if(counter > 100)
 		{
 			tim2.stop();
 #ifdef BITBAND
@@ -60,13 +60,7 @@ int main()
 			ledg.toggle();
 #endif
 
-//			rgb_led.setTestLed();
-//			rgb_led.testBreak();
-//			rgb_led.TsetLightFunc();
-//			rgb_led.runFunc();
 
-//			rgb_led.testBreak();
-//			rgb_led.resetTestLed();
 
 			if(rgbOn == false)
 			{
@@ -77,7 +71,9 @@ int main()
 
 			}else{
 				rgbOn = false;
-				rgb_led.resetRgb();
+				rgb_led.setTurnOff();
+				rgb_led.runFunc();
+//				rgb_led.resetRgb();
 			}
 			tim2.start();
 			counter = 0;

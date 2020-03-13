@@ -19,17 +19,11 @@ class rgb_ws2812b
 public:
 	rgb_ws2812b();
 
-	void setRgbLed(const std::uint8_t red, const std::uint8_t green, const std::uint8_t blue);
-	void resetRgb(void);
 	void setLightFunc(void);
+	void setTurnOff(void);
 	void runFunc(void);
 
-
-	void setTestLed(void);
-	void resetTestLed(void);
-	void testBreak(void); //testBreak is reset of ws2812b
-	void TsetLightFunc(void);
-
+	void resetRgb(void);
 
 private:
 	hal_uc::stmGpio ws2812b_din;
