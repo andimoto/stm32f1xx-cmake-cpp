@@ -6,8 +6,9 @@
 #define HAL_PCB_RGB_WS2812B_H_
 
 #include <cstdint>
+
+#include "bbGpio.hpp"
 #include "gpio.hpp"
-#include "stmGpio.hpp"
 #include "stm32f1xx.h"
 
 
@@ -27,8 +28,8 @@ public:
 	void resetRgb(void);
 
 private:
-	hal_uc::stmGpio ws2812b_din;
-	hal_uc::stmGpio testPin;
+	hal_uc::bbGpio ws2812b_din;
+	hal_uc::bbGpio testPin;
 
 	bitband_t dinSet;
 	bitband_t dinReset;

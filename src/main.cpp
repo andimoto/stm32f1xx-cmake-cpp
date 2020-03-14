@@ -8,7 +8,8 @@
 #include "rgb_ws2812b.hpp"
 #include "timer.hpp"
 #include "gpio.hpp"
-#include "stmGpio.hpp"
+#include "bbGpio.hpp"
+#include "color.hpp"
 
 /* configure timer for about 1ms @APB1 Clock of 72Mhz / 4 (AHB Div) */
 const hal_uc::timer::timConfig tim2Conf(
@@ -20,9 +21,9 @@ const hal_uc::timer::timConfig tim2Conf(
 		0
 		);
 
-static const hal_uc::stmGpio::gpioConfig led_conf(hal_uc::stmGpio::Port::PORT_C, hal_uc::stmGpio::Pin::PIN_13,
-		hal_uc::stmGpio::Mode::OUT, hal_uc::stmGpio::Speed::FAST,	hal_uc::stmGpio::Type::PUSHPULL,
-		hal_uc::stmGpio::PushPull::UP);
+static const hal_uc::bbGpio::gpioConfig led_conf(hal_uc::bbGpio::Port::PORT_C, hal_uc::bbGpio::Pin::PIN_13,
+		hal_uc::bbGpio::Mode::OUT, hal_uc::bbGpio::Speed::FAST,	hal_uc::bbGpio::Type::PUSHPULL,
+		hal_uc::bbGpio::PushPull::UP);
 
 static const hal_uc::gpio::gpioConfig led_conf2(hal_uc::gpio::Port::PORT_C, hal_uc::gpio::Pin::PIN_13,
 		hal_uc::gpio::Mode::OUT, hal_uc::gpio::Speed::FAST,	hal_uc::gpio::Type::PUSHPULL,
@@ -33,24 +34,21 @@ static void countUp(void)
 {
 	counter++;
 }
-#define BITBAND
+
 int main()
 {
-	bool rgbOn = false;
 	hal_pcb::rgb_ws2812b rgb_led;
 
-	std::uint8_t countColor = 0x01;
 	std::uint8_t g = 0;
 	std::uint8_t r = 0;
 	std::uint8_t b = 0;
 
+	bool colorUp = false;
+	color colorState = color::RED;
 
-#ifdef BITBAND
-	hal_uc::stmGpio led(led_conf);
+
+	hal_uc::bbGpio led(led_conf);
 	led.set();
-#else
-	hal_uc::gpio ledg(led_conf2);
-#endif
 	hal_uc::timer tim2(tim2Conf, &countUp);
 	tim2.start();
 
@@ -58,50 +56,39 @@ int main()
 
 	while(1)
 	{
-		if(counter > 400)
+		if(counter > 200)
 		{
-			if( (countColor&0x01) == 0x01)
-			{
-				g++;
-			}
-			if( (countColor&0x03) == 0x02)
-			{
-				r++;
-			}
-			if( (countColor&0x04) == 0x04)
-			{
-				b++;
-			}
-			countColor++;
+			g = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::GREEN)];
+			r = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::RED)];
+			b = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::BLUE)];
 
-//			g++;
-//			r++;
-//			b--;
+			if(colorUp)
+			{
+				colorState = static_cast<color>(static_cast<std::uint8_t>(colorState)-1);
+			}else{
+				colorState = static_cast<color>(static_cast<std::uint8_t>(colorState)+1);
+			}
 
+
+			if(colorState == color::ALL_COLORS || colorState == color::RED)
+			{
+				if(colorUp == true)
+					colorUp = false;
+				else
+					colorUp = true;
+			}
 
 			tim2.stop();
-#ifdef BITBAND
 			led.toggle();
-#else
-			ledg.toggle();
-#endif
 
+			rgb_led.setLightFunc2(g,r,b);
+			rgb_led.runFunc();
 
-
-			if(rgbOn == false)
-			{
-				rgbOn = true;
-				rgb_led.setLightFunc2(g,r,b);
-				rgb_led.runFunc();
-
-			}else{
-				rgbOn = false;
-				rgb_led.setTurnOff();
-				rgb_led.runFunc();
-
-			}
 			tim2.start();
 			counter = 0;
+
+
+
 //			printf("%u\n", getSysTick());
 		}
 	};

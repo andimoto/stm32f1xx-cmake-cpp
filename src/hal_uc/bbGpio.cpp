@@ -2,13 +2,14 @@
  * File: gpio.cpp
  * Initial Author: andimoto
  */
+#include "inc/bbGpio.hpp"
+
 #include <cstdint>
-#include "stmGpio.hpp"
 #include "stm32f1xx.h"
 #include "stm32f1xx_hal_gpio.h"
 
 
-static GPIO_TypeDef* gpioBase[static_cast<std::uint8_t>(hal_uc::stmGpio::Port::PORT_ALL)] = {
+static GPIO_TypeDef* gpioBase[static_cast<std::uint8_t>(hal_uc::bbGpio::Port::PORT_ALL)] = {
 		GPIOA,
 		GPIOB,
 		GPIOC,
@@ -23,7 +24,7 @@ static GPIO_TypeDef* gpioBase[static_cast<std::uint8_t>(hal_uc::stmGpio::Port::P
 //		GPIOK
 };
 
-static std::uint32_t gpioAhb[static_cast<std::uint8_t>(hal_uc::stmGpio::Port::PORT_ALL)] = {
+static std::uint32_t gpioAhb[static_cast<std::uint8_t>(hal_uc::bbGpio::Port::PORT_ALL)] = {
 		RCC_APB2ENR_IOPAEN,
 		RCC_APB2ENR_IOPBEN,
 		RCC_APB2ENR_IOPCEN,
@@ -39,7 +40,7 @@ static std::uint32_t gpioAhb[static_cast<std::uint8_t>(hal_uc::stmGpio::Port::PO
 };
 
 
-hal_uc::stmGpio::gpioConfig::gpioConfig(const Port portConf, const Pin pinConf, const Mode modeConf,
+hal_uc::bbGpio::gpioConfig::gpioConfig(const Port portConf, const Pin pinConf, const Mode modeConf,
 		const Speed speedConf, const Type typeConf, const PushPull ppConf) :
 		gpioPort(portConf), gpioPin(pinConf), gpioMode(modeConf),
 		gpioSpeed(speedConf), gpioType(typeConf), gpioPushPull(ppConf)
@@ -47,7 +48,7 @@ hal_uc::stmGpio::gpioConfig::gpioConfig(const Port portConf, const Pin pinConf, 
 
 }
 
-static void initGpio(const hal_uc::stmGpio::gpioConfig& gpioInitConf)
+static void initGpio(const hal_uc::bbGpio::gpioConfig& gpioInitConf)
 {
 	GPIO_InitTypeDef initPin;
 
@@ -69,7 +70,7 @@ static void initGpio(const hal_uc::stmGpio::gpioConfig& gpioInitConf)
 }
 
 
-hal_uc::stmGpio::stmGpio(const gpioConfig& gpioConfiguration) :
+hal_uc::bbGpio::bbGpio(const gpioConfig& gpioConfiguration) :
 		gpioPort(gpioConfiguration.gpioPort),
 		gpioPin(gpioConfiguration.gpioPin),
 		gpioMode(gpioConfiguration.gpioMode)
@@ -87,17 +88,17 @@ hal_uc::stmGpio::stmGpio(const gpioConfig& gpioConfiguration) :
 			static_cast<std::uint32_t>(gpioConfiguration.gpioPin))+16);
 }
 
-void hal_uc::stmGpio::set(void)
+void hal_uc::bbGpio::set(void)
 {
 	*pinSet = 1;
 }
 
-void hal_uc::stmGpio::reset(void)
+void hal_uc::bbGpio::reset(void)
 {
 	*pinReset = 1;
 }
 
-void hal_uc::stmGpio::toggle(void)
+void hal_uc::bbGpio::toggle(void)
 {
 	if(*pinRead)
 		*pinReset = 1;
@@ -105,17 +106,17 @@ void hal_uc::stmGpio::toggle(void)
 		*pinSet = 1;
 }
 
-std::uint8_t hal_uc::stmGpio::get(void) const
+std::uint8_t hal_uc::bbGpio::get(void) const
 {
 	return *pinRead;
 }
 
-bitband_t hal_uc::stmGpio::getSetPin(void)
+bitband_t hal_uc::bbGpio::getSetPin(void)
 {
 	return this->pinSet;
 }
 
-bitband_t hal_uc::stmGpio::getResetPin(void)
+bitband_t hal_uc::bbGpio::getResetPin(void)
 {
 	return this->pinReset;
 }

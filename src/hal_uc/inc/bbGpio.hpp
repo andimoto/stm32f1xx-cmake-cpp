@@ -30,7 +30,7 @@ typedef volatile uint32_t * bitband_t;
 namespace hal_uc
 {
 
-class stmGpio
+class bbGpio
 {
 public:
 	enum class Port
@@ -113,7 +113,7 @@ public:
 				const Speed speedConf, const Type typeConf, const PushPull ppConf);
 	};
 
-	stmGpio(const gpioConfig& gpioConfiguration);
+	bbGpio(const gpioConfig& gpioConfiguration);
 
 	void set(void);
 	void reset(void);

@@ -6,19 +6,20 @@
 #include "rgb_ws2812b.hpp"
 #include "stm32f1xx.h"
 
-static const hal_uc::stmGpio::gpioConfig ws2812b_conf(hal_uc::stmGpio::Port::PORT_A, hal_uc::stmGpio::Pin::PIN_0,
-		hal_uc::stmGpio::Mode::OUT, hal_uc::stmGpio::Speed::FAST,	hal_uc::stmGpio::Type::PUSHPULL,
-		hal_uc::stmGpio::PushPull::UP);
+static const hal_uc::bbGpio::gpioConfig ws2812b_conf(hal_uc::bbGpio::Port::PORT_A, hal_uc::bbGpio::Pin::PIN_0,
+		hal_uc::bbGpio::Mode::OUT, hal_uc::bbGpio::Speed::FAST,	hal_uc::bbGpio::Type::PUSHPULL,
+		hal_uc::bbGpio::PushPull::UP);
 
-static const hal_uc::stmGpio::gpioConfig testPin_conf(hal_uc::stmGpio::Port::PORT_A, hal_uc::stmGpio::Pin::PIN_1,
-		hal_uc::stmGpio::Mode::OUT, hal_uc::stmGpio::Speed::FAST,	hal_uc::stmGpio::Type::PUSHPULL,
-		hal_uc::stmGpio::PushPull::UP);
+static const hal_uc::bbGpio::gpioConfig testPin_conf(hal_uc::bbGpio::Port::PORT_A, hal_uc::bbGpio::Pin::PIN_1,
+		hal_uc::bbGpio::Mode::OUT, hal_uc::bbGpio::Speed::FAST,	hal_uc::bbGpio::Type::PUSHPULL,
+		hal_uc::bbGpio::PushPull::UP);
 
 
 constexpr std::uint32_t bitsG = 8*2;
 constexpr std::uint32_t bitsR = 8*2;
 constexpr std::uint32_t bitsB = 8*2;
 static void (*led01_hl[bitsG+bitsR+bitsB])(void);
+static void (*led02_hl[bitsG+bitsR+bitsB])(void);
 
 
 static bitband_t gDinSet;
@@ -163,10 +164,6 @@ void t0low(void)
 
 }
 
-
-
-
-
 void hal_pcb::rgb_ws2812b::reset(void)
 {
 	std::uint16_t index = 0;
@@ -179,9 +176,6 @@ void hal_pcb::rgb_ws2812b::reset(void)
 
 	ws2812b_din.set();
 }
-
-
-
 
 void hal_pcb::rgb_ws2812b::setLightFunc(void)
 {
@@ -213,7 +207,6 @@ void hal_pcb::rgb_ws2812b::setLightFunc(void)
 
 }
 
-
 void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::uint8_t b)
 {
 	std::uint32_t index = 0;
@@ -227,6 +220,10 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 			led01_hl[index+1] = t0low;
 		}
 		g = g >> 1;
+
+		led02_hl[index] = t1high;
+		led02_hl[index+1] = t1low;
+
 		index = index + 2;
 	}
 
@@ -241,6 +238,10 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 			led01_hl[index+bitsG+1] = t0low;
 		}
 		r = r >> 1;
+
+		led02_hl[index+bitsG] = t1high;
+		led02_hl[index+bitsG+1] = t1low;
+
 		index = index + 2;
 	}
 
@@ -255,6 +256,10 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 			led01_hl[index+bitsG+bitsB+1] = t0low;
 		}
 		b = b >> 1;
+
+		led02_hl[index+bitsG+bitsB] = t1high;
+		led02_hl[index+bitsG+bitsB+1] = t1low;
+
 		index = index + 2;
 	}
 
@@ -343,6 +348,62 @@ void hal_pcb::rgb_ws2812b::runFunc(void)
 	led01_hl[index++]();
 	led01_hl[index++]();
 	led01_hl[index++]();
+
+
+	index=0;
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+
+	/* LED Red */
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+
+	/* LED Blue */
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+	led02_hl[index++]();
+
 }
 
 
