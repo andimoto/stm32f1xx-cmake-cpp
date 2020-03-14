@@ -20,6 +20,8 @@ class rgb_ws2812b
 public:
 	rgb_ws2812b();
 
+	bool calcColor(const std::uint32_t h, std::uint8_t& r,std::uint8_t& g ,std::uint8_t& b);
+
 	void setLightFunc(void);
 	void setLightFunc2(std::uint8_t g, std::uint8_t r, std::uint8_t b);
 	void setTurnOff(void);

@@ -20,6 +20,7 @@ constexpr std::uint32_t bitsR = 8*2;
 constexpr std::uint32_t bitsB = 8*2;
 static void (*led01_hl[bitsG+bitsR+bitsB])(void);
 static void (*led02_hl[bitsG+bitsR+bitsB])(void);
+static void (*led03_hl[bitsG+bitsR+bitsB])(void);
 
 
 static bitband_t gDinSet;
@@ -215,14 +216,23 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 		{
 			led01_hl[index] = t1high;
 			led01_hl[index+1] = t1low;
+
+			led02_hl[index] = t1high;
+			led02_hl[index+1] = t1low;
+
+			led03_hl[index] = t1high;
+			led03_hl[index+1] = t1low;
 		}else{
 			led01_hl[index] = t0high;
 			led01_hl[index+1] = t0low;
+
+			led02_hl[index] = t0high;
+			led02_hl[index+1] = t0low;
+
+			led03_hl[index] = t0high;
+			led03_hl[index+1] = t0low;
 		}
 		g = g >> 1;
-
-		led02_hl[index] = t1high;
-		led02_hl[index+1] = t1low;
 
 		index = index + 2;
 	}
@@ -233,14 +243,23 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 		{
 			led01_hl[index+bitsG] = t1high;
 			led01_hl[index+bitsG+1] = t1low;
+
+			led02_hl[index+bitsG] = t1high;
+			led02_hl[index+bitsG+1] = t1low;
+
+			led03_hl[index+bitsG] = t1high;
+			led03_hl[index+bitsG+1] = t1low;
 		}else{
 			led01_hl[index+bitsG] = t0high;
 			led01_hl[index+bitsG+1] = t0low;
+
+			led02_hl[index+bitsG] = t0high;
+			led02_hl[index+bitsG+1] = t0low;
+
+			led03_hl[index+bitsG] = t0high;
+			led03_hl[index+bitsG+1] = t0low;
 		}
 		r = r >> 1;
-
-		led02_hl[index+bitsG] = t1high;
-		led02_hl[index+bitsG+1] = t1low;
 
 		index = index + 2;
 	}
@@ -251,14 +270,23 @@ void hal_pcb::rgb_ws2812b::setLightFunc2(std::uint8_t g, std::uint8_t r, std::ui
 		{
 			led01_hl[index+bitsG+bitsB] = t1high;
 			led01_hl[index+bitsG+bitsB+1] = t1low;
+
+			led02_hl[index+bitsG+bitsB] = t1high;
+			led02_hl[index+bitsG+bitsB+1] = t1low;
+
+			led03_hl[index+bitsG+bitsB] = t1high;
+			led03_hl[index+bitsG+bitsB+1] = t1low;
 		}else{
 			led01_hl[index+bitsG+bitsB] = t0high;
 			led01_hl[index+bitsG+bitsB+1] = t0low;
+
+			led02_hl[index+bitsG+bitsB] = t0high;
+			led02_hl[index+bitsG+bitsB+1] = t0low;
+
+			led03_hl[index+bitsG+bitsB] = t0high;
+			led03_hl[index+bitsG+bitsB+1] = t0low;
 		}
 		b = b >> 1;
-
-		led02_hl[index+bitsG+bitsB] = t1high;
-		led02_hl[index+bitsG+bitsB+1] = t1low;
 
 		index = index + 2;
 	}
@@ -273,6 +301,13 @@ void hal_pcb::rgb_ws2812b::setTurnOff(void)
 	while(index < bitsG){
 		led01_hl[index] = t0high;
 		led01_hl[index+1] = t0low;
+
+		led02_hl[index] = t0high;
+		led02_hl[index+1] = t0low;
+
+		led03_hl[index] = t0high;
+		led03_hl[index+1] = t0low;
+
 		index = index + 2;
 	}
 
@@ -280,6 +315,13 @@ void hal_pcb::rgb_ws2812b::setTurnOff(void)
 	while(index < bitsR){
 		led01_hl[index+bitsG] = t0high;
 		led01_hl[index+bitsG+1] = t0low;
+
+		led02_hl[index+bitsG] = t0high;
+		led02_hl[index+bitsG+1] = t0low;
+
+		led03_hl[index+bitsG] = t0high;
+		led03_hl[index+bitsG+1] = t0low;
+
 		index = index + 2;
 	}
 
@@ -287,6 +329,13 @@ void hal_pcb::rgb_ws2812b::setTurnOff(void)
 	while(index < bitsB){
 		led01_hl[index+bitsG+bitsB] = t0high;
 		led01_hl[index+bitsG+bitsB+1] = t0low;
+
+		led02_hl[index+bitsG+bitsB] = t0high;
+		led02_hl[index+bitsG+bitsB+1] = t0low;
+
+		led03_hl[index+bitsG+bitsB] = t0high;
+		led03_hl[index+bitsG+bitsB+1] = t0low;
+
 		index = index + 2;
 	}
 }
@@ -351,6 +400,7 @@ void hal_pcb::rgb_ws2812b::runFunc(void)
 
 
 	index=0;
+	/* LED Green */
 	led02_hl[index++]();
 	led02_hl[index++]();
 	led02_hl[index++]();
@@ -403,6 +453,63 @@ void hal_pcb::rgb_ws2812b::runFunc(void)
 	led02_hl[index++]();
 	led02_hl[index++]();
 	led02_hl[index++]();
+
+
+
+	index=0;
+	/* LED Green */
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+
+	/* LED Red */
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+
+	/* LED Blue */
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
+	led03_hl[index++]();
 
 }
 
@@ -478,5 +585,37 @@ void hal_pcb::rgb_ws2812b::resetRgb(void)
 
 }
 
+
+bool hal_pcb::rgb_ws2812b::calcColor(const std::uint32_t h, std::uint8_t& r,std::uint8_t& g ,std::uint8_t& b)
+{
+	//Winkel im Farbkeis 0 - 360 in 1 Grad Schritten
+	//h = (englisch hue) Farbwert
+	//1 Grad Schrittweite, 4.25 Steigung pro Schritt bei 60 Grad
+	if(h<61){
+		r = 255;
+		b = 0;
+		g = 4.25 * h;
+	}
+	if(h>61 && h<121){
+		g = 255;
+		b = 0;
+		r = 255 - (4.25 * (h-60));
+	}
+	if(h>121 && h < 181){
+		r = 0;
+		g = 255;
+		b = 4.25 * (h-120);
+	}
+	if(h>181 && h < 241){
+		r = 0;
+		b = 255;
+		g = 255 - (4.25 * (h-180));
+	}
+	if(h>241 && h < 301){
+		g = 0;
+		b = 255;
+		r = 4.25 * (h-240);
+	}
+}
 
 
