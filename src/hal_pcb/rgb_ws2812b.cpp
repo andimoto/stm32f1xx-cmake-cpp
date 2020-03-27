@@ -181,9 +181,6 @@ void hal_pcb::rgb_ws2812b::reset(void)
 void hal_pcb::rgb_ws2812b::setLightFunc(void)
 {
 	std::uint32_t index = 0;
-	std::uint8_t g = 0x0F;
-	std::uint8_t r = 0x3C;
-	std::uint8_t b = 0xF0;
 
 	index = 0;
 	while(index < bitsG){
@@ -586,7 +583,7 @@ void hal_pcb::rgb_ws2812b::resetRgb(void)
 }
 
 
-bool hal_pcb::rgb_ws2812b::calcColor(const std::uint32_t h, std::uint8_t& r,std::uint8_t& g ,std::uint8_t& b)
+void hal_pcb::rgb_ws2812b::calcColor(const std::uint32_t h, std::uint8_t& r,std::uint8_t& g ,std::uint8_t& b)
 {
 	//Winkel im Farbkeis 0 - 360 in 1 Grad Schritten
 	//h = (englisch hue) Farbwert

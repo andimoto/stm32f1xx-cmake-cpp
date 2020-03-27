@@ -72,13 +72,13 @@ static void stopTimerCtrl(const hal_uc::timer::Instance tim)
 
 static void enableTimerIrq(const hal_uc::timer::Instance tim)
 {
-//	timerBase[static_cast<std::uint8_t>(tim)]->DIER |= static_cast<std::uint16_t>(TIM_IT_UPDATE);
+///**/	timerBase[static_cast<std::uint8_t>(tim)]->DIER |= static_cast<std::uint16_t>(TIM_IT_UPDATE);
 	NVIC_EnableIRQ(nvicIrqMap[static_cast<std::uint8_t>(tim)]);
 }
 
 static void disableTimerIrq(const hal_uc::timer::Instance tim)
 {
-//	timerBase[static_cast<std::uint8_t>(tim)]->DIER &= static_cast<std::uint16_t>(~TIM_IT_UPDATE);
+///**/	timerBase[static_cast<std::uint8_t>(tim)]->DIER &= static_cast<std::uint16_t>(~TIM_IT_UPDATE);
 	NVIC_DisableIRQ(nvicIrqMap[static_cast<std::uint8_t>(tim)]);
 }
 

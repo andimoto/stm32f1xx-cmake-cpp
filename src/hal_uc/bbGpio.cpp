@@ -2,7 +2,7 @@
  * File: gpio.cpp
  * Initial Author: andimoto
  */
-#include "inc/bbGpio.hpp"
+#include "bbGpio.hpp"
 
 #include <cstdint>
 #include "stm32f1xx.h"

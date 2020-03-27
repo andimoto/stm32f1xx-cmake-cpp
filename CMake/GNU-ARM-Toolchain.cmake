@@ -19,20 +19,22 @@ set(CMAKE_OBJDUMP /opt/gcc-arm-none-eabi-9-2019-q4/bin/arm-none-eabi-objdump)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # core flags
-set(CORE_FLAGS "-mthumb -mcpu=cortex-m4") 
-set(CORE_FLAGS "${CORE_FLAGS} -mlittle-endian -mfloat-abi=soft -mthumb-interwork") 
+set(CORE_FLAGS "-mthumb -mcpu=cortex-m3") 
+set(CORE_FLAGS "${CORE_FLAGS} -mlittle-endian -mfloat-abi=soft") 
 set(CORE_FLAGS "${CORE_FLAGS} --specs=nano.specs --specs=nosys.specs ${ADDITIONAL_CORE_FLAGS}")
+# -mthumb-interwork
+
 
 # compiler: language specific flags
-set(CMAKE_C_FLAGS "${CORE_FLAGS} -fno-builtin -Wall -std=gnu99 -fdata-sections -ffunction-sections -g3 -gdwarf-2" CACHE INTERNAL "c compiler flags")
+set(CMAKE_C_FLAGS "${CORE_FLAGS} -fno-builtin -Wall -std=gnu99 -fdata-sections -ffunction-sections -g" CACHE INTERNAL "c compiler flags")
 set(CMAKE_C_FLAGS_DEBUG "" CACHE INTERNAL "c compiler flags: Debug")
 set(CMAKE_C_FLAGS_RELEASE "" CACHE INTERNAL "c compiler flags: Release")
 
-set(CMAKE_CXX_FLAGS "${CORE_FLAGS} -fno-rtti -fno-exceptions -fno-builtin -Wall -std=gnu++11 -fdata-sections -ffunction-sections -g -ggdb3" CACHE INTERNAL "cxx compiler flags")
+set(CMAKE_CXX_FLAGS "${CORE_FLAGS} -fno-rtti -fno-exceptions -fno-builtin -Wall -std=gnu++11 -fdata-sections -ffunction-sections -g" CACHE INTERNAL "cxx compiler flags")
 set(CMAKE_CXX_FLAGS_DEBUG "" CACHE INTERNAL "cxx compiler flags: Debug")
 set(CMAKE_CXX_FLAGS_RELEASE "" CACHE INTERNAL "cxx compiler flags: Release")
 
-set(CMAKE_ASM_FLAGS "${CORE_FLAGS} -g -ggdb3 -D__USES_CXX" CACHE INTERNAL "asm compiler flags")
+set(CMAKE_ASM_FLAGS "${CORE_FLAGS} -g -D__USES_CXX" CACHE INTERNAL "asm compiler flags")
 set(CMAKE_ASM_FLAGS_DEBUG "" CACHE INTERNAL "asm compiler flags: Debug")
 set(CMAKE_ASM_FLAGS_RELEASE "" CACHE INTERNAL "asm compiler flags: Release")
 
@@ -45,7 +47,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 # find additional toolchain executables
-find_program(ARM_SIZE_EXECUTABLE arm-none-eabi-size)
-find_program(ARM_GDB_EXECUTABLE arm-none-eabi-gdb)
-find_program(ARM_OBJCOPY_EXECUTABLE arm-none-eabi-objcopy)
-find_program(ARM_OBJDUMP_EXECUTABLE arm-none-eabi-objdump)
+find_program(ARM_SIZE_EXECUTABLE /opt/gcc-arm-none-eabi-9-2019-q4/bin/arm-none-eabi-size)
+find_program(ARM_GDB_EXECUTABLE /opt/gcc-arm-none-eabi-9-2019-q4/bin/arm-none-eabi-gdb)
+find_program(ARM_OBJCOPY_EXECUTABLE /opt/gcc-arm-none-eabi-9-2019-q4/bin/arm-none-eabi-objcopy)
+find_program(ARM_OBJDUMP_EXECUTABLE /opt/gcc-arm-none-eabi-9-2019-q4/bin/arm-none-eabi-objdump)

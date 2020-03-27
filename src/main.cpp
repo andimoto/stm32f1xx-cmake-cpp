@@ -76,14 +76,14 @@ int main()
 				r = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::RED)];
 				b = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::BLUE)];
 
-//				rgb_led.calcColor(h,r,g,b);
+				rgb_led.calcColor(h,r,g,b);
 
 				if(h >= 360)
 					h = 1;
 				else
 					h++;
 
-				printf("h%u || r%u | g%u | b%u\n",h,r,g,b);
+//				printf("h%u || r%u | g%u | b%u\n",h,r,g,b);
 
 				tim2.stop();
 				led.toggle();
