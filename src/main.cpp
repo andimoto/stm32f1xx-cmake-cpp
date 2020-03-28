@@ -17,7 +17,7 @@ const hal_uc::timer::timConfig tim2Conf(
 		72-1,
 		hal_uc::timer::CounterMode::UP,
 		1000-1,
-		hal_uc::timer::ClockDiv::DIV1,
+		hal_uc::timer::ClockDiv::DIV4,
 		0
 		);
 
@@ -67,11 +67,12 @@ int main()
 
 	while(1)
 	{
-		if(counter > 200)
+		if(counter > 500)
 		{
-			std::uint8_t btnVal = btn.get();
-			if(btnVal == 0 && btnValPrev == 1)
-			{
+			led.toggle();
+//			std::uint8_t btnVal = btn.get();
+//			if(btnVal == 0 && btnValPrev == 1)
+//			{
 				g = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::GREEN)];
 				r = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::RED)];
 				b = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::BLUE)];
@@ -85,10 +86,11 @@ int main()
 
 //				printf("h%u || r%u | g%u | b%u\n",h,r,g,b);
 
-				tim2.stop();
-				led.toggle();
-
+//				g = 0xFF; r = 0xFF; b = 0xFF;
 				rgb_led.setLightFunc2(g,r,b);
+
+				tim2.stop();
+
 				rgb_led.runFunc();
 
 				tim2.start();
@@ -109,14 +111,14 @@ int main()
 					else
 						colorUp = true;
 				}
-			}
-			btnValPrev = btnVal;
+//			}
+//			btnValPrev = btnVal;
 
 			counter = 0;
 
 //			printf("%u\n", getSysTick());
 		}
-	};
+	}
 
 	return 0;
 }

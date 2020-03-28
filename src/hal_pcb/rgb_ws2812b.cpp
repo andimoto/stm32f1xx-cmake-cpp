@@ -104,7 +104,7 @@ void t1low(void)
 	__asm__("nop\n\t");
 	__asm__("nop\n\t");
 
-	__asm__("nop\n\t");
+//	__asm__("nop\n\t");
 
 }
 
