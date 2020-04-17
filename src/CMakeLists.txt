@@ -4,6 +4,7 @@ set(HAL_PCB_DIR hal_pcb)
 
 set(sources
     main.cpp
+    lightCtrl.cpp
 )
 
 set(sources ${sources}
@@ -15,6 +16,7 @@ set(sources ${sources}
 
 set(sources ${sources}
 	${HAL_PCB_DIR}/rgb_ws2812b.cpp
+	${HAL_PCB_DIR}/buttonCtrl.cpp
 )
 
 target_include_directories(stm32f1xx PUBLIC inc)

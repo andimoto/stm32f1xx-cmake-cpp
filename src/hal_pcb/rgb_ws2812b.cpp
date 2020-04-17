@@ -1,5 +1,5 @@
 /**
- * File: rgb-ws2812b.cpp
+ * File: rgb_ws2812b.cpp
  * Initial Author: andimoto
  */
 #include <cstdint>

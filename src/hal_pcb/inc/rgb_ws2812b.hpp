@@ -1,5 +1,5 @@
 /**
- * File: rgb_ws2812b.cpp
+ * File: rgb_ws2812b.hpp
  * Initial Author: andimoto
  */
 #ifndef HAL_PCB_RGB_WS2812B_H_
