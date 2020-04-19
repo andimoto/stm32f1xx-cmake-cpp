@@ -12,9 +12,9 @@ namespace hal_pcb
 buttonCtrl::buttonCtrl(const hal_uc::gpio::gpioConfig& buttonPinConfig, const std::uint32_t timerResolutionConf, const std::uint32_t pressDurConf,
 		const std::uint32_t midPressDurConf, const std::uint32_t longPressDurConf) :
 				buttonPin(buttonPinConfig), lastPinState(0), timerResolution(timerResolutionConf), timer(0),
-			pressDuration(pressDurConf), pressRange(pressDurConf>>5),
-			midPressDuration(midPressDurConf), midPressRange(midPressDurConf>>5),
-			longPressDuration(longPressDurConf), longPressRange(longPressDurConf>>5)
+			pressDuration(pressDurConf), pressRange(pressDurConf/8),
+			midPressDuration(midPressDurConf), midPressRange(midPressDurConf/3),
+			longPressDuration(longPressDurConf), longPressRange(longPressDurConf/10)
 
 {
 
@@ -44,11 +44,11 @@ hal_pcb::buttonCtrl::buttonPress buttonCtrl::getButtonPress(void)
 				pressState = buttonPress::NO_PRESS;
 			}
 			if((timer >= pressDuration - pressRange)
-					&& (timer < midPressDuration - midPressRange))
+					&& (timer < pressDuration + pressRange))
 			{
 				pressState = buttonPress::PRESS;
 			}
-			if((timer >= midPressDuration - midPressRange)
+			if((timer >= pressDuration + pressRange)
 					&& (timer < longPressDuration - longPressRange))
 			{
 				pressState = buttonPress::MID_PRESS;
