@@ -5,7 +5,8 @@
 
 #include "main.hpp"
 #include "itm_write.h"
-#include "rgb_ws2812b.hpp"
+#include "lightCtrl.hpp"
+//#include "rgb_ws2812b.hpp"
 #include "buttonCtrl.hpp"
 #include "timer.hpp"
 #include "gpio.hpp"
@@ -42,27 +43,15 @@ static void countUp(void)
 
 int main()
 {
-	hal_pcb::rgb_ws2812b rgb_led;
-
-	std::uint8_t g = 0;
-	std::uint8_t r = 0;
-	std::uint8_t b = 0;
-	std::uint32_t h = 1;
+	lightCtrl rgbLight;
 
 	std::uint32_t tmpCnt = 0;
 
-	bool colorUp = false;
-	color colorState = color::RED;
-
-//	hal_uc::gpio btnOut(btnr_conf);
 	hal_pcb::buttonCtrl progButton(btnl_conf, 10, 200, 1000, 2000);
 	hal_uc::gpio btn(btnl_conf);
-	std::uint8_t btnValPrev = 0;
 
 	hal_uc::bbGpio led(led_conf);
 	led.set();
-
-//	btnOut.set();
 
 	hal_uc::timer tim2(tim2Conf, &countUp);
 	tim2.start();
@@ -81,44 +70,13 @@ int main()
 
 			if(pressState == hal_pcb::buttonCtrl::buttonPress::PRESS)
 			{
-				g = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::GREEN)];
-				r = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::RED)];
-				b = colorValues[static_cast<std::uint8_t>(colorState)][static_cast<std::uint8_t>(LED::BLUE)];
-
-				rgb_led.calcColor(h,r,g,b);
-
-				if(h >= 360)
-					h = 1;
-				else
-					h++;
-
-				printf("h%u || r%u | g%u | b%u\n",h,r,g,b);
-
-//				g = 0xFF; r = 0xFF; b = 0xFF;
-				rgb_led.setLightFunc2(g,r,b);
+				rgbLight.setNextState();
 
 				tim2.stop();
 
-				rgb_led.runFunc();
+				rgbLight.update();
 
 				tim2.start();
-
-
-				if(colorUp)
-				{
-					colorState = static_cast<color>(static_cast<std::uint8_t>(colorState)-1);
-				}else{
-					colorState = static_cast<color>(static_cast<std::uint8_t>(colorState)+1);
-				}
-
-
-				if(colorState == color::ROSE1 || colorState == color::RED)
-				{
-					if(colorUp == true)
-						colorUp = false;
-					else
-						colorUp = true;
-				}
 			}
 
 			tmpCnt++;
